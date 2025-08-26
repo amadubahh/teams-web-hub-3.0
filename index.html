@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFL Teams Selector</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 2em; }
+        .container { max-width: 500px; margin: auto; background: #fff; padding: 2em; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .team-logo { width: 120px; height: 120px; object-fit: contain; margin-bottom: 1em; }
+        .team-details { margin-top: 1em; }
+        select { width: 100%; padding: 0.5em; font-size: 1em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Select an NFL Team</h2>
+        <select id="teamSelect"></select>
+        <div class="team-details" id="teamDetails" style="display:none;">
+            <img id="teamLogo" class="team-logo" src="" alt="Team Logo">
+            <div><strong>Name:</strong> <span id="teamName"></span></div>
+            <div><strong>Abbreviation:</strong> <span id="teamAbbr"></span></div>
+            <div><strong>Division:</strong> <span id="teamDivision"></span></div>
+        </div>
+    </div>
+    <script>
+        // Hardcoded data from teams_data.csv
+        const teams = [
+            { abbr: "ARI", name: "Arizona Cardinals", division: "NFC West", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/ari.png" },
+            { abbr: "ATL", name: "Atlanta Falcons", division: "NFC South", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/atl.png" },
+            { abbr: "BAL", name: "Baltimore Ravens", division: "AFC North", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/bal.png" },
+            { abbr: "BUF", name: "Buffalo Bills", division: "AFC East", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/buf.png" },
+            { abbr: "CAR", name: "Carolina Panthers", division: "NFC South", logo: "https://a.espncdn.com/i/teamlogos/nfl/500-dark/car.png" },
+            { abbr: "CHI", name: "Chicago Bears", division: "NFC North", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/chi.png" },
+            { abbr: "CIN", name: "Cincinnati Bengals", division: "AFC North", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/cin.png" },
+            { abbr: "CLE", name: "Cleveland Browns", division: "AFC North", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/cle.png" },
+            { abbr: "DAL", name: "Dallas Cowboys", division: "NFC East", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/dal.png" },
+            { abbr: "DEN", name: "Denver Broncos", division: "AFC West", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/den.png" },
+            { abbr: "DET", name: "Detroit Lions", division: "NFC North", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/det.png" },
+            { abbr: "GB", name: "Green Bay Packers", division: "NFC North", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/gb.png" },
+            { abbr: "HOU", name: "Houston Texans", division: "AFC South", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/hou.png" },
+            { abbr: "IND", name: "Indianapolis Colts", division: "AFC South", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/ind.png" },
+            { abbr: "JAX", name: "Jacksonville Jaguars", division: "AFC South", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/jax.png" },
+            { abbr: "KC", name: "Kansas City Chiefs", division: "AFC West", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/kc.png" },
+            { abbr: "LA", name: "Los Angeles Rams", division: "NFC West", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/lar.png" },
+            { abbr: "LAC", name: "Los Angeles Chargers", division: "AFC West", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/lac.png" },
+            { abbr: "LV", name: "Las Vegas Raiders", division: "AFC West", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/lv.png" },
+            { abbr: "MIA", name: "Miami Dolphins", division: "AFC East", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/mia.png" }
+        ];
+
+        const teamSelect = document.getElementById('teamSelect');
+        const teamDetails = document.getElementById('teamDetails');
+        const teamLogo = document.getElementById('teamLogo');
+        const teamName = document.getElementById('teamName');
+        const teamAbbr = document.getElementById('teamAbbr');
+        const teamDivision = document.getElementById('teamDivision');
+
+        // Populate dropdown
+        teamSelect.innerHTML = '<option value="">-- Select a team --</option>' +
+            teams.map(team => `<option value="${team.abbr}">${team.name}</option>`).join('');
+
+        teamSelect.addEventListener('change', function() {
+            const selected = teams.find(t => t.abbr === this.value);
+            if (selected) {
+                teamDetails.style.display = '';
+                teamLogo.src = selected.logo;
+                teamLogo.alt = selected.name + ' logo';
+                teamName.textContent = selected.name;
+                teamAbbr.textContent = selected.abbr;
+                teamDivision.textContent = selected.division;
+            } else {
+                teamDetails.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
